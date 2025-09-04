@@ -1,16 +1,10 @@
-// config/database.js - Knex configuration for PostgreSQL
+// config/database.js
 const knex = require('knex');
 require('dotenv').config();
 
 const config = {
   client: 'pg',
-  connection: {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || 'root',
-    database: process.env.DB_NAME || 'postgres',
-  },
+  connection: process.env.DATABASE_URL,  // use full connection string from Supabase
   pool: {
     min: 2,
     max: 10
