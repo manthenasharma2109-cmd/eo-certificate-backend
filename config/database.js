@@ -6,7 +6,7 @@ const config = {
   client: 'pg',
   connection: {
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }  // required for Supabase
+    ssl: { rejectUnauthorized: false }   // needed for Supabase
   },
   pool: { min: 2, max: 10 },
   migrations: {
@@ -16,5 +16,5 @@ const config = {
   seeds: { directory: './seeds' }
 };
 
-
 module.exports = knex(config);
+
