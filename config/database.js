@@ -4,18 +4,17 @@ require('dotenv').config();
 
 const config = {
   client: 'pg',
-  connection: process.env.DATABASE_URL,  // use full connection string from Supabase
-  pool: {
-    min: 2,
-    max: 10
+  connection: {
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }  // required for Supabase
   },
+  pool: { min: 2, max: 10 },
   migrations: {
     directory: './migrations',
     tableName: 'knex_migrations'
   },
-  seeds: {
-    directory: './seeds'
-  }
+  seeds: { directory: './seeds' }
 };
+
 
 module.exports = knex(config);
