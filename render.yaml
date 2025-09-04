@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: eo-certificate-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    plan: free
+
+databases:
+  - name: eo-certificate-db
+    databaseName: eocertificate
+    user: eoadmin
+    plan: free

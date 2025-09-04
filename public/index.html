@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vehicle Emissions Data Access</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .brand {
+      text-align: center;
+      color: #1a56db; /* Blue color */
+      font-weight: bold;
+      font-size: 2em;
+      padding: 15px 0;
+      margin: 0;
+      width: 100%;
+      background-color: #ffffff;
+      border-bottom: 2px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand">Vehicle Emissions Data Access<br><span style="font-size: 0.6em; font-weight: normal; color: #4b5563;">Search, Explore, and Access Vehicle Emissions Data with V.E.D.A.</span></div>
+      <div class="topbar">
+        <div id="userGreeting" class="muted">Not signed in</div>
+        <button id="logoutBtn" class="btn btn-ghost hidden">Logout</button>
+      </div>
+    </header>
+
+    <!-- Auth Section -->
+    <main>
+      <section id="authSection" class="card auth-wrap">
+        <div class="auth-tabs">
+          <button id="tabLogin" class="btn btn-ghost">Login</button>
+          <button id="tabRegister" class="btn btn-ghost">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+          <h2>Sign in</h2>
+          <p class="muted">Use your email and password. New accounts require admin approval.</p>
+          <div class="grid">
+            <div>
+              <label for="loginEmail">Email</label>
+              <input id="loginEmail" type="email" autocomplete="username" />
+            </div>
+            <div>
+              <label for="loginPassword">Password</label>
+              <input id="loginPassword" type="password" autocomplete="current-password" />
+            </div>
+            <div class="form-actions">
+              <button id="doLogin" class="btn btn-primary">Login</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="hidden">
+          <h2>Create an account</h2>
+          <p class="muted">After registering your account will be pending admin approval.</p>
+          <div class="grid">
+            <div>
+              <label for="regName">Username</label>
+              <input id="regName" type="text" autocomplete="name" />
+            </div>
+            <div>
+              <label for="regEmail">Email</label>
+              <input id="regEmail" type="email" />
+            </div>
+            <div>
+              <label for="regPassword">Password</label>
+              <input id="regPassword" type="password" />
+            </div>
+            <div>
+              <label for="regConfirm">Confirm Password</label>
+              <input id="regConfirm" type="password" />
+            </div>
+            <div class="form-actions">
+              <button id="doRegister" class="btn btn-primary">Register</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="userDashboard" class="hidden">
+        <div class="card">
+          <div class="dashboard-header">
+            <div>
+              <h1>User Dashboard</h1>
+              <div class="muted">Filter and view EO certificates</div>
+            </div>
+          </div>
+      
+          <!-- Filter Dropdowns -->
+          <div class="filters">
+            <select id="filterYear">
+              <option value="">-- Select Year --</option>
+            </select>
+      
+            <select id="filterMake" disabled>
+              <option value="">-- Select Make --</option>
+            </select>
+      
+            <select id="filterModel" disabled>
+              <option value="">-- Select Model --</option>
+            </select>
+      
+            <select id="filterEoNumber" disabled>
+              <option value="">-- Select EO Number --</option>
+            </select>
+      
+            <button id="clearFilters" type="button" class="btn btn-ghost small">Clear</button>
+          </div>
+      
+          <!-- Certificates List -->
+          <div class="card">
+            <div class="card-header">
+              <div class="muted">Results</div>
+            </div>
+            <div id="certListWrapper">
+              <div id="certLoading" class="muted">Loading…</div>
+              <table id="certTable" class="hidden">
+                <thead>
+                  <tr>
+                    <th>EO Number</th>
+                    <th>Year</th>
+                    <th>Vehicle Make</th>
+                    <th>Vehicle Model</th>
+                    <th>Manufacturer</th>
+                    <th>Engine Size(L)</th>
+                    <th>Evap. Family</th>
+                    <th>Test Group</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="certBody"></tbody>
+              </table>
+      
+              <!-- Pagination -->
+              <div id="userPagination" class="pagination hidden">
+                <button id="userPrevPage" type="button" class="btn btn-ghost">Previous</button>
+                <span id="userPageInfo">Page 1 of 1</span>
+                <button id="userNextPage" type="button" class="btn btn-ghost">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    
+    <!-- Add Footer Here -->
+    <footer class="modern-footer">
+      <div class="footer-content">
+          <div class="disclaimer-section">
+              <div class="disclaimer-header">
+                  <div class="disclaimer-icon">⚠️</div>
+                  <h2 class="disclaimer-title">Important Disclaimer</h2>
+              </div>
+              <div class="disclaimer-text">
+                  This database is compiled from publicly available government data (e.g., CARB). 
+                  Accuracy is <strong>not guaranteed</strong>, and the information may be incomplete or outdated. 
+                  Use <strong>at your own discretion</strong>. We are <strong>not affiliated with or endorsed by any government agency</strong>, 
+                  and VEDA Services <strong>is not liable</strong> for any decisions made based on this data.
+              </div>
+          </div>
+          <div class="footer-bottom">
+              <p>&copy; 2024 VEDA Services. All rights reserved.</p>
+          </div>
+      </div>
+  </footer>
+      
+
+      <!-- Admin Dashboard -->
+      <section id="adminDashboard" class="hidden">
+        <div class="card">
+          <div class="dashboard-header">
+            <div>
+              <h1>Admin Dashboard</h1>
+              <div class="muted">Manage users and EO certificates</div>
+            </div>
+            <div>
+              <button id="refreshUsers" class="btn btn-ghost small">Refresh Users</button>
+              <button id="refreshCerts" class="btn btn-ghost small">Refresh Certs</button>
+            </div>
+          </div>
+
+          <!-- Pending Users -->
+          <div class="card">
+            <h2>Pending Users</h2>
+            <div id="usersLoading" class="muted">Loading…</div>
+            <table id="usersTable" class="hidden">
+              <thead>
+                <tr><th>Username</th><th>Email</th><th>Status</th><th>Role</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="usersBody"></tbody>
+            </table>
+          </div>
+
+          <!-- Certificates -->
+          <div class="card">
+            <div class="card-header">
+              <h2>Certificates</h2>
+          
+              <style>
+                .filters {
+                  display: flex;
+                  gap: 10px;
+                  margin-bottom: 10px;
+                  align-items: center;
+                }
+                .filters input {
+                  flex: 1;
+                  padding: 8px;
+                  border: 1px solid #ccc;
+                  border-radius: 6px;
+                }
+                .filters button {
+                  padding: 8px 16px;
+                  border-radius: 6px;
+                }
+              </style>
+          
+          <div class="filters">
+            <input type="text" id="filterEONumber" placeholder="EO Number"
+                   oninput="handleFilterChange()" onkeyup="handleFilterKeyup(event)">
+            <input type="text" id="filterYear" placeholder="Year"
+                   oninput="handleFilterChange()" onkeyup="handleFilterKeyup(event)">
+            <input type="text" id="filterMake" placeholder="Make"
+                   oninput="handleFilterChange()" onkeyup="handleFilterKeyup(event)">
+            <input type="text" id="filterModel" placeholder="Model"
+                   oninput="handleFilterChange()" onkeyup="handleFilterKeyup(event)">
+                   
+            <button onclick="loadAdminCerts(1)" class="btn btn-primary small">Search</button>
+            <button id="addCertBtn" class="btn btn-primary small">Add Certificate</button>
+          </div>
+          
+          
+            <!-- Loader -->
+            <div id="certsLoadingAdmin" class="hidden muted">Loading certificates...</div>
+          
+            <!-- Table -->
+            <div class="table-responsive">
+              <table id="adminCertTable" class="hidden">
+                <thead>
+                  <tr>
+                    <th>EO Number</th>
+                    <th>Year</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Manufacturer</th>
+                    <th>Engine Size</th>
+                    <th>Evap. Family</th>
+                    <th>Test Group</th>
+                    <th>Exhaust ECS and Special Features</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminCertBody"></tbody>
+              </table>
+            </div>
+          
+            <!-- Pagination -->
+            <div id="pagination" class="pagination hidden">
+              <button id="prevPage" class="btn btn-ghost">Previous</button>
+              <span id="pageInfo">Page 1 of 1</span>
+              <button id="nextPage" class="btn btn-ghost">Next</button>
+            </div>
+          </div>
+          
+          
+    <!-- Footer -->
+    <footer>
+      Zero-emission vehicles are essential to achieve clean air for all Californians. The state has set a target to sell only zero-emission new cars, SUVs, and pickup trucks by 2035. California is committed to supporting the cleanest transportation while ensuring all communities benefit, especially those overburdened by air pollution.
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="hidden modal-overlay">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Modal</h3>
+        <button id="closeModal" class="btn btn-ghost">Close</button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toastContainer"></div>
+
+  <!-- Debug Info
+  <div id="debugInfo" style="position: fixed; bottom: 10px; right: 10px; background: #f0f0f0; padding: 10px; border: 1px solid #ccc; z-index: 1000; font-size: 12px;">
+    <div>Debug Info:</div>
+    <div id="jsLoaded">JS: Not loaded</div>
+    <div id="elementsFound">Elements: Checking...</div>
+  </div> -->
+
+  <!-- <script>
+    // Simple test to see if JS is loaded
+    document.getElementById('jsLoaded').textContent = 'JS: Loaded';
+    
+    // Check if required elements exist
+    const checkElements = () => {
+      const elements = ['doLogin', 'doRegister', 'loginEmail', 'loginPassword'];
+      const found = elements.filter(id => document.getElementById(id));
+      document.getElementById('elementsFound').textContent = 
+        `Found ${found.length} of ${elements.length} elements: ${found.join(', ')}`;
+    };
+    
+    // Run check when DOM is loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkElements);
+    } else {
+      checkElements();
+    }
+  </script> -->
+  
+  <script src="main.js"></script>
+</body>
+</html>
