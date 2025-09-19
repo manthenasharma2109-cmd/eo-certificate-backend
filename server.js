@@ -41,9 +41,9 @@ app.use('/api', apiRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Serve index.html for client-side routing (must be after API routes)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
 
 // Root endpoint
 app.get('/', (req, res) => {
