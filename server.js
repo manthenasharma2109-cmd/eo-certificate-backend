@@ -12,7 +12,14 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5000', 'http://127.0.0.1:5000', process.env.FRONTEND_URL].filter(Boolean),
+  origin: [
+    'http://localhost:3000', 
+    'http://127.0.0.1:3000', 
+    'http://localhost:5000', 
+    'http://127.0.0.1:5000',
+    'https://manthenasharma2109-cmd.github.io/vehicle-emission-frontend/',  // Add your actual GitHub Pages URL
+    process.env.FRONTEND_URL
+  ].filter(Boolean),
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Content-Length', 'X-Requested-With'],
