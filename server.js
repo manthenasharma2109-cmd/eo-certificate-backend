@@ -18,7 +18,7 @@ app.use(cors({
     'http://localhost:5000', 
     'http://127.0.0.1:5000',
     'https://eocertificates.netlify.app',
-    'https://manthenasharma2109-cmd.github.io/vehicle-emission-frontend',   // Add your actual GitHub Pages URL
+    'https://manthenasharma2109-cmd.github.io/vehicle-emission-frontend/',   // Add your actual GitHub Pages URL
     process.env.FRONTEND_URL
   ].filter(Boolean),
   credentials: true,
