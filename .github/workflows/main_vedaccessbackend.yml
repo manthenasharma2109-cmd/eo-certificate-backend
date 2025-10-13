@@ -50,6 +50,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'vedaccessbackend'
-          slot-name: 'Production'
           package: .
+
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_91701B204D9749F6B34E48F849679899 }}
