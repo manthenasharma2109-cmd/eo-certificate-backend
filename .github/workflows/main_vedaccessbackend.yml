@@ -45,11 +45,9 @@ jobs:
         with:
           name: node-app
       
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'vedaccessbackend'
-          package: .
-
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_91701B204D9749F6B34E48F849679899 }}
+   - name: 'Deploy to Azure Web App'
+  uses: azure/webapps-deploy@v3
+  with:
+    app-name: 'vedaccessbackend'
+    publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_91701B204D9749F6B34E48F849679899 }}
+    package: .
